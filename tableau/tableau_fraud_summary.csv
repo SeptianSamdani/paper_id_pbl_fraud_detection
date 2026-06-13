@@ -1,0 +1,2 @@
+total_transactions,total_amount,fraud_transactions,fraud_amount,fraud_rate_pct,avg_fraud_probability,high_risk_count,medium_risk_count,low_risk_count,burst_tx_count,unique_buyers,unique_sellers
+26772,820301262458.0719,4633,267099470987.89105,17.305393694905124,0.2821244404691768,4341,3636,18795,8763,6498,413
