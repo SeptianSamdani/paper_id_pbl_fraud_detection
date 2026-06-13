@@ -1,6 +1,16 @@
 import pandas as pd
 import numpy as np
 
+# FIX 2: Threshold burst dinaikkan ke 15 menit (lebih realistis untuk B2B payment)
+BURST_THRESHOLD_MINUTES = 15
+
+
+def add_self_transaction_flag(df: pd.DataFrame) -> pd.DataFrame:
+    """FIX 3: Tandai transaksi di mana buyer_id == seller_id (strong fraud signal)."""
+    df = df.copy()
+    df["is_self_transaction"] = (df["buyer_id"] == df["seller_id"]).astype(int)
+    return df
+
 
 def add_buyer_seller_relationship(df: pd.DataFrame) -> pd.DataFrame:
     """Hitung frekuensi interaksi buyer-seller dan Z-score-nya."""
@@ -36,8 +46,15 @@ def add_transaction_frequency(df: pd.DataFrame) -> pd.DataFrame:
     mean_diff = df["time_diff_minutes"].mean()
     std_diff  = df["time_diff_minutes"].std()
 
-    df["is_burst"]       = (df["time_diff_minutes"] < 5).astype(int)
+    # FIX 2: Gunakan threshold 15 menit + tambah fitur kontinu burst_intensity
+    df["is_burst"]       = (df["time_diff_minutes"] < BURST_THRESHOLD_MINUTES).astype(int)
     df["is_unusual_gap"] = (df["time_diff_minutes"] > mean_diff + 3 * std_diff).astype(int)
+
+    # Fitur kontinu: seberapa cepat transaksi relatif terhadap rata-rata (makin kecil = makin mencurigakan)
+    df["burst_intensity"] = np.where(
+        df["time_diff_minutes"] == 0, 1.0,
+        1.0 / np.log1p(df["time_diff_minutes"])
+    )
 
     return df
 
@@ -58,7 +75,7 @@ def add_promotion_exploitation(df: pd.DataFrame) -> pd.DataFrame:
     ]:
         mean = df[col].mean()
         std  = df[col].std()
-        df[z_col]   = (df[col] - mean) / std
+        df[z_col]    = (df[col] - mean) / std
         df[flag_col] = (df[z_col] > 3).astype(int)
 
     return df
@@ -81,8 +98,9 @@ def add_scaling(df: pd.DataFrame) -> pd.DataFrame:
 
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
     """Jalankan semua feature engineering sekaligus."""
+    df = add_self_transaction_flag(df)       # FIX 3: self-transaction dulu
     df = add_buyer_seller_relationship(df)
-    df = add_transaction_frequency(df)
+    df = add_transaction_frequency(df)       # FIX 2: burst threshold 15 menit
     df = add_promotion_exploitation(df)
     df = add_scaling(df)
     return df
