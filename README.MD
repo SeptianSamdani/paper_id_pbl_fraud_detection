@@ -1,12 +1,12 @@
-# 🔍 Paper.id Fraud Detection
+# Paper.id Fraud Detection
 
-End-to-end fraud detection project pada transaksi digital payment Paper.id — mencakup data pipeline, machine learning, network analysis, SQL analytics, dan Tableau dashboard.
+End-to-end fraud detection project pada transaksi digital payment Paper.id — sebagai Project Based Learning dari Program Studi Independent / MSIB Batch 7 di Bitlabs Academy (Data Analytics for Business) - mencakup data pipeline, machine learning, network analysis, SQL analytics, dan Tableau dashboard.
 
 ---
 
-## 📌 Latar Belakang
+## Latar Belakang
 
-Paper.id adalah platform B2B digital payment Indonesia. Proyek ini bertujuan mendeteksi pola transaksi fraud menggunakan pendekatan data analytics dan machine learning, berdasarkan dataset transaksi, data perusahaan, dan penggunaan promosi.
+Paper.id adalah sebuah platform B2B digital payment Indonesia. Proyek ini bertujuan mendeteksi pola transaksi fraud menggunakan pendekatan data analytics dan machine learning, berdasarkan dataset transaksi, data perusahaan, dan penggunaan promosi.
 
 ---
 
@@ -44,7 +44,7 @@ paperid-fraud-detection/
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 | File | Deskripsi | Rows |
 |---|---|---|
@@ -55,7 +55,7 @@ paperid-fraud-detection/
 
 ---
 
-## ⚙️ Pipeline
+## Pipeline
 
 ```
 Raw CSV
@@ -77,12 +77,12 @@ Raw CSV
 
 ---
 
-## 🤖 Hasil Modeling
+## Hasil Modeling
 
 | Model | ROC-AUC | PR-AUC | F1 | Recall |
 |---|---|---|---|---|
 | Random Forest | 0.8927 | 0.7751 | 0.6593 | 0.7109 |
-| **XGBoost** ✅ | **0.9543** | **0.8982** | **0.7973** | **0.8274** |
+| **XGBoost** | **0.9543** | **0.8982** | **0.7973** | **0.8274** |
 | XGBoost + SMOTE | 0.9020 | 0.8091 | 0.7192 | 0.6742 |
 
 **Top features:** `is_outlier_iqr`, `promo_usage_count_buyer`, `relationship_score_z`, `transaction_count`, `transaction_amount`
@@ -91,7 +91,7 @@ Raw CSV
 
 ---
 
-## 🌐 Network Analysis
+## Network Analysis
 
 | Metrik | Nilai |
 |---|---|
@@ -105,7 +105,7 @@ Temuan: node paling berbahaya bukan yang paling sentral — **peripheral fraud n
 
 ---
 
-## 🗃️ SQL Analytics (PostgreSQL)
+## SQL Analytics (PostgreSQL)
 
 ```sql
 -- Monthly fraud report
@@ -123,7 +123,7 @@ SELECT * FROM vw_top_fraud_pairs WHERE pair_risk_label = 'HIGH RISK';
 
 ---
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 ### 1. Setup environment
 
@@ -162,12 +162,12 @@ Buka Tableau → Connect → Text File → `tableau/tableau_transactions.csv`
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-`Python` `Pandas` `Scikit-learn` `XGBoost` `NetworkX` `PostgreSQL` `Tableau` `Jupyter`
+`Python` `Pandas` `Scikit-learn` `XGBoost` `NetworkX` `PostgreSQL` `Tableau` `Jupyter Notebook`
 
 ---
 
-## 👤 Author
+## Author
 
-**Yahya** — AI Engineer Cohort · Pijak × IBM SkillsBuild
+**Septian Samdani** 
